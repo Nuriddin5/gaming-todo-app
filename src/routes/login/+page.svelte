@@ -20,6 +20,15 @@
     async function logout() {
         await supabase.auth.signOut();
     }
+
+    async function sendReset() {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
+        if (error) {
+            alert(error.message);
+        } else {
+            alert("Password reset email sent!");
+        }
+    }
 </script>
 
 <div class="max-w-sm mx-auto mt-10 space-y-3">
@@ -30,6 +39,9 @@
     <button on:click={login} disabled={loading} class="bg-blue-600 text-white px-4 py-2 rounded w-full">
         {loading ? "Logging in..." : "Login"}
     </button>
+
+    <button on:click={sendReset} class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 ">Forgot password</button>
+
 
     {#if $user}
         <p class="text-sm text-gray-600">Logged in as {$user.email}</p>
