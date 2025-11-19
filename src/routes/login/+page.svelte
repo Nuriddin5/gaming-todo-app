@@ -29,6 +29,14 @@
             alert("Password reset email sent!");
         }
     }
+
+    async function loginGoogle() {
+        const { error } = await supabase.auth.signInWithOAuth({ provider: "google",
+        redirectTo: `${window.location.origin}/dashboard`});
+        if (error) {
+            alert(error.message);
+        }
+    }
 </script>
 
 <div class="max-w-sm mx-auto mt-10 space-y-3">
@@ -39,6 +47,8 @@
     <button on:click={login} disabled={loading} class="bg-blue-600 text-white px-4 py-2 rounded w-full">
         {loading ? "Logging in..." : "Login"}
     </button>
+
+    <button on:click={loginGoogle} class="bg-blue-600 text-white px-4 py-2 rounded w-full">Google bilan kirish</button>
 
     <button on:click={sendReset} class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 ">Forgot password</button>
 
